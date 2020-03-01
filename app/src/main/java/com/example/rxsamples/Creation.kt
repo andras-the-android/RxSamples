@@ -1,10 +1,15 @@
 package com.example.rxsamples
 
+import android.annotation.SuppressLint
+import io.reactivex.Emitter
 import io.reactivex.Observable
+import io.reactivex.ObservableEmitter
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Consumer
 import java.util.concurrent.Callable
 
+@SuppressLint("CheckResult")
 class Creation {
 
 
@@ -78,6 +83,22 @@ class Creation {
         Thread.sleep(500)
         observable.subscribe(observer)
 
+    }
+
+    fun create() {
+//        D: 1
+//        D: 2
+//        D: 3
+//        D: completed
+
+        //alternatively:
+        //Observable.create {  emitter: ObservableEmitter<Int> ->
+        Observable.create<Int> {  emitter ->
+            emitter.onNext(1)
+            emitter.onNext(2)
+            emitter.onNext(3)
+            emitter.onComplete()
+        }.subscribe({ log(it.toString()) }, { }, { log("completed") })
     }
 
     fun defer() {
