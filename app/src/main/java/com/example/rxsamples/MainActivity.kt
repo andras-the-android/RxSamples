@@ -10,5 +10,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Creation().latest()
         Transformation().latest()
+        RandomThings().latest()
     }
 }
