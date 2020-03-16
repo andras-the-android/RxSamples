@@ -11,5 +11,6 @@ class MainActivity : AppCompatActivity() {
         Creation().latest()
         Transformation().latest()
         RandomThings().latest()
+        Multicast().latest()
     }
 }

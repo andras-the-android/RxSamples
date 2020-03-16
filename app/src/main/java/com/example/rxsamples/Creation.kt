@@ -168,6 +168,7 @@ class Creation {
 
     fun interval() {
 //        It emits an increasing series of Long in every 500 milliseconds and it never completes
+//        !!!! it starts with a delay. So here there is a 500 ms gap before the 0 item
 //
 //        D: 0
 //        D: 1
