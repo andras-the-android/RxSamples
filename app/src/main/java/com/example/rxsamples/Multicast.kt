@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import io.reactivex.Observable
 import io.reactivex.observables.ConnectableObservable
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 
 @SuppressLint("CheckResult")
 class Multicast {
@@ -87,6 +88,55 @@ class Multicast {
         connectDisposable.dispose()
     }
 
+//    Multiple connect calls doesn't affect the source
+//
+//    D/xxxx: start
+//    D/xxxx: onnext 0
+//    D/xxxx: onnext 1
+//    D/xxxx: onnext 2
+//    D/xxxx: onnext 3
+//    D/xxxx: onnext 4
+//    D/xxxx: onnext 5
+//    D/xxxx: onnext 6
+//    D/xxxx: onnext 7
+    fun repeatedConnect() {
+        log("start")
+        val myObservable: Observable<Long> = Observable.interval(500, TimeUnit.MILLISECONDS)
+        val connectableObservable: ConnectableObservable<Long> = myObservable.publish()
+
+        connectableObservable.connect()
+        connectableObservable.subscribe( { log("onnext $it") }, { log(it.message ?: "empty error message") }, { log("completed") })
+        Thread.sleep(2000)
+
+        val connectDisposable = connectableObservable.connect()
+        Thread.sleep(2000)
+
+        connectDisposable.dispose()
+    }
+
+//    In case of error all the subscribers will get onError
+//
+//    D: onnext1 0
+//    D: onnext2 0
+//    D: onnext1 1
+//    D: onnext2 1
+//    D: onnext1 2
+//    D: onnext2 2
+//    D: onnext1 3
+//    D: onnext2 3
+//    D: onnext1 4
+//    D: onnext2 4
+//    D: empty error message
+//    D: empty error message
+    fun error() {
+        log("start")
+        val myObservable: Observable<Long> = Observable.interval(500, TimeUnit.MILLISECONDS).map { if (it == 5L) throw TimeoutException() else it }
+        val connectableObservable: ConnectableObservable<Long> = myObservable.publish()
+        connectableObservable.subscribe( { log("onnext1 $it") }, { log(it.message ?: "empty error message") }, { log("completed1") })
+        connectableObservable.subscribe( { log("onnext2 $it") }, { log(it.message ?: "empty error message") }, { log("completed2") })
+        connectableObservable.connect()
+    }
+
 //    2020-03-17 00:28:46.388 D: start
 //    2020-03-17 00:28:47.894 D: onnext1 0
 //    2020-03-17 00:28:48.393 D: onnext1 1
@@ -145,6 +195,5 @@ class Multicast {
     }
 
     fun latest() {
-
     }
 }
