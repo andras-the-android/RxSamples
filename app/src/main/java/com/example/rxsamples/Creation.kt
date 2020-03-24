@@ -144,7 +144,7 @@ class Creation {
     }
 
     fun never() {
-//        it never will do anything
+//        it will never do anything
         Observable.never<String>()
             .subscribe( { log("onNext") }, { log("onError") }, { log("onCompleted") } )
     }
@@ -181,7 +181,7 @@ class Creation {
     }
 
     fun intervalRange() {
-//        Combination of interval and range. After the subscription it waits 2 seconds and then emits the series with 500ms deley bitween the items
+//        Combination of interval and range. After the subscription it waits 2 seconds and then emits the series with 500ms delay between the items
 //
 //        D: onSubscribe
 //        D: 100
