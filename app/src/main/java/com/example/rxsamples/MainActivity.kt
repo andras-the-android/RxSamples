@@ -1,7 +1,7 @@
 package com.example.rxsamples
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,5 +13,6 @@ class MainActivity : AppCompatActivity() {
         RandomThings().latest()
         Multicast().latest()
         Conditional().latest()
+        Boolean().latest()
     }
 }
