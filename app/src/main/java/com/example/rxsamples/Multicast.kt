@@ -194,6 +194,28 @@ class Multicast {
         disposable3.dispose()
     }
 
+//    If I'd replace replay with publish, the first item would be 4 because 3 was emitted before the subscription. As you can see the first item is emitted closer to the second
+//    then the the defined period because it's from the cache. There is only one item because is the defined buffer size in the replay() call.
+//
+//    2020-03-23 19:28:20.206 D: start
+//    2020-03-23 19:28:22.629 D: onnext1 3
+//    2020-03-23 19:28:22.727 D: onnext1 4
+//    2020-03-23 19:28:23.228 D: onnext1 5
+//    2020-03-23 19:28:23.729 D: onnext1 6
+//    2020-03-23 19:28:24.228 D: onnext1 7
+//    2020-03-23 19:28:24.729 D: onnext1 8
+//    2020-03-23 19:28:25.227 D: onnext1 9
+    fun replay() {
+        log("start")
+        val myObservable: Observable<Long> = Observable.interval(500, TimeUnit.MILLISECONDS)
+        val connectableObservable: ConnectableObservable<Long> = myObservable.replay(1)
+        val disposable = connectableObservable.connect()
+        Thread.sleep(2400)
+        connectableObservable.subscribe( { log("onnext1 $it") }, { log(it.message ?: "empty error message") }, { log("completed1") })
+        Thread.sleep(3000)
+        disposable.dispose()
+    }
+
     fun latest() {
     }
 }
