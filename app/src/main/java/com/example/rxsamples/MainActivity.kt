@@ -14,5 +14,6 @@ class MainActivity : AppCompatActivity() {
         Multicast().latest()
         Conditional().latest()
         Boolean().latest()
+        Filtering().latest()
     }
 }
