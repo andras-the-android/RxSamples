@@ -15,5 +15,6 @@ class MainActivity : AppCompatActivity() {
         Conditional().latest()
         Boolean().latest()
         Filtering().latest()
+        Error().latest()
     }
 }
