@@ -5,7 +5,6 @@ import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import java.io.IOException
-import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
 @SuppressLint("CheckResult")
@@ -168,7 +167,7 @@ class Creation {
 
     fun interval() {
 //        It emits an increasing series of Long in every 500 milliseconds and it never completes
-//        !!!! it starts with a delay. So here there is a 500 ms gap before the 0 item
+//        !!!! if initial delay is not set then it starts with a period delay (here 500ms)
 //
 //        D: 0
 //        D: 1
@@ -176,7 +175,7 @@ class Creation {
 //        D: 3
 //        D: 4
 //        .....
-        Observable.interval(500L, TimeUnit.MILLISECONDS)
+        Observable.interval(2000, 500L, TimeUnit.MILLISECONDS)
             .subscribe( { log(it.toString()) }, { log("onError") }, { log("onCompleted") } )
     }
 
@@ -207,7 +206,6 @@ class Creation {
     }
 
     fun latest() {
-
     }
 
 
