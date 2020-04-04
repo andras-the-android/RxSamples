@@ -16,5 +16,6 @@ class MainActivity : AppCompatActivity() {
         Boolean().latest()
         Filtering().latest()
         Error().latest()
+        Aggregation().latest()
     }
 }
