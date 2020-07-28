@@ -1,8 +1,8 @@
 package com.example.rxsamples
 
 import android.annotation.SuppressLint
+import io.reactivex.Completable
 import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 @SuppressLint("CheckResult")
@@ -38,7 +38,12 @@ class RandomThings {
         disposable.dispose()
     }
 
+    fun triggeringAnRxFlowByACompletable() {
+        Completable.complete().andThen(Observable.range(5, 5)).subscribe { println("onnext $it") }
+    }
+
     fun latest() {
+
 
     }
 }
